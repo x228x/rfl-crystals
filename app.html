@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RFL Crystals</title>
+<style>
+  body {
+    background-color: #121212;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0; padding: 0;
+  }
+  header {
+    text-align: center;
+    padding: 20px;
+  }
+  .diamond {
+    width: 80px;
+    margin: 0 auto 10px;
+  }
+  h1 {
+    font-weight: 900;
+  }
+  .balance {
+    background: #222;
+    margin: 20px auto;
+    padding: 15px;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  button {
+    background-color: #3b82f6;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    font-size: 18px;
+    padding: 10px 0;
+    width: 90%;
+    max-width: 400px;
+    margin: 10px auto;
+    display: block;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+<header>
+  <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Diamond" class="diamond" />
+  <h1>RFL Crystals</h1>
+  <p>Зарабатывай кристаллы и меняй их на кейсы, стикеры и скины для Counter Strike 2.</p>
+</header>
+<div class="balance">
+  <div>💎 <span id="crystals-count">0</span></div>
+  <div>твой баланс</div>
+  <button id="buy-crystals">Купить кристаллы</button>
+</div>
+<script>
+  // Пример взаимодействия с Telegram WebApp
+  const tg = window.Telegram.WebApp;
+  tg.expand();
+
+  // Здесь можно добавить логику загрузки баланса из backend или Telegram data
+
+  document.getElementById("buy-crystals").onclick = () => {
+    alert("Функция покупки кристаллов пока не реализована.");
+  };
+</script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+</body>
+</html>
