@@ -1,86 +1,152 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>RFL Crystals Mini App</title>
-<style>
-  body { font-family: Arial, sans-serif; background: #121212; color: #eee; margin: 0; padding-bottom: 60px; }
-  .container { padding: 15px; }
-  .button { background-color: #3b82f6; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; margin: 10px 0; }
-  nav { display: flex; justify-content: space-around; padding: 10px; background: #222; position: fixed; bottom: 0; width: 100%; }
-  nav button { background: none; color: #aaa; border: none; font-size: 16px; cursor: pointer; }
-  nav button.active { color: #3b82f6; font-weight: bold; }
-  .friend { padding: 10px; background: #222; margin: 5px 0; border-radius: 8px; }
-  .profile-photo { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; }
-  .profile-link { display: flex; align-items: center; padding: 8px; background: #222; margin: 5px 0; border-radius: 8px; cursor: pointer; }
-  .profile-link img { width: 24px; margin-right: 10px; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RFL Crystals</title>
+  <style>
+    body {
+      margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      background-color: #121212; color: white; height: 100vh; display: flex; flex-direction: column;
+    }
+    .content { flex: 1; overflow-y: auto; padding: 20px; }
+    .tabbar { display: flex; justify-content: space-around; background: #181818; padding: 10px 0; }
+    .tabbar button { background: none; border: none; color: white; font-size: 14px; cursor: pointer; flex: 1; padding: 10px 0; }
+    .tabbar button.active { border-bottom: 3px solid #3b82f6; font-weight: bold; }
+    .hidden { display: none; }
+    .avatar { border-radius: 50%; width: 80px; height: 80px; object-fit: cover; margin: 20px auto 10px; display: block; }
+    .profile-section { text-align: center; }
+    .button-primary { background-color: #3b82f6; border: none; color: white; padding: 10px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; }
+    .case, .friend, .task { background: #222; margin-bottom: 10px; padding: 10px; border-radius: 10px; }
+    .case img { width: 100%; border-radius: 10px; }
+    .case-title, .friend-name, .task-title { font-weight: bold; margin: 5px 0; }
+    .diamond { color: #0ea5e9; }
+  </style>
 </head>
 <body>
+  <div class="content">
 
-<div class="container" id="app"></div>
+    <!-- Главный экран -->
+    <div id="home-screen">
+      <img id="user-avatar" class="avatar" src="" alt="Аватарка" />
+      <h1 style="text-align:center;">RFL Crystals</h1>
+      <p style="text-align:center;">Зарабатывай кристаллы и меняй их на кейсы, стикеры и скины для Counter Strike 2.</p>
+      <div style="background:#222; border-radius: 20px; padding: 20px; margin: 20px 0; text-align:center;">
+        <p style="font-size: 24px;"><span class="diamond">💎</span> <span id="balance">0</span></p>
+        <p>твой баланс</p>
+        <button class="button-primary" id="buy-crystals">Купить кристаллы</button>
+      </div>
+      <div class="task">
+        <div class="task-title">Пригласи друга, который играет в CS</div>
+        <button class="button-primary" id="invite-friend">Пригласить</button>
+        <p>+500 <span class="diamond">💎</span></p>
+      </div>
+      <div class="task" style="background:#166534;">
+        <div class="task-title">Подписка на RFL Community</div>
+        <p>+100 <span class="diamond">💎</span></p>
+      </div>
+    </div>
 
-<nav>
-  <button id="nav-home" class="active">Кристаллы</button>
-  <button id="nav-friends">Друзья</button>
-  <button id="nav-profile">Профиль</button>
-</nav>
+    <!-- Кейсы -->
+    <div id="cases-screen" class="hidden">
+      <h2 style="text-align:center;">Кейсы</h2>
+      <div class="case">
+        <img src="https://i.ibb.co/bsLmD0Z/rusty-case.png" alt="Rusty Case" />
+        <div class="case-title">Rusty Case</div>
+        <div><span class="diamond">💎</span> 500</div>
+      </div>
+      <div class="case">
+        <img src="https://i.ibb.co/cJWQNjG/tactical-case.png" alt="Tactical Case" />
+        <div class="case-title">Tactical Case</div>
+        <div><span class="diamond">💎</span> 3000</div>
+      </div>
+      <!-- Добавь остальные кейсы по примеру -->
+    </div>
 
-<script>
-  const app = document.getElementById('app');
+    <!-- Друзья -->
+    <div id="friends-screen" class="hidden">
+      <h2 style="text-align:center;">Друзья</h2>
+      <div id="friends-list">
+        <!-- Тут будет список друзей из API -->
+      </div>
+    </div>
 
-  function renderHome() {
-    app.innerHTML = `
-      <h1>RFL Crystals</h1>
-      <div>💎 Твой баланс: <strong>0</strong></div>
-      <button class="button">Купить кристаллы</button>
-      <button class="button">Пригласить друга</button>
+    <!-- Профиль -->
+    <div id="profile-screen" class="hidden profile-section">
+      <img id="profile-avatar" class="avatar" src="" alt="Профиль" />
+      <h3 id="profile-name"></h3>
+      <ul style="list-style:none; padding:0; max-width: 400px; margin: 0 auto; text-align:left;">
+        <li><a href="#" style="color:#3b82f6;">Ссылка обмена</a></li>
+        <li><a href="#" style="color:#a855f7;">Сообщество RFL BLAST</a></li>
+        <li><a href="#" style="color:#f59e0b;">Язык: Русский</a></li>
+        <li><a href="#" style="color:#3b82f6;">Открыть сайт RFL</a></li>
+      </ul>
+      <h4>ТОП 3 ПРЕДМЕТА</h4>
+      <div class="case">
+        <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/ab/abc12345.jpg" alt="P90" />
+        <div class="case-title">P90</div>
+        <div><span class="diamond">💎</span> 253</div>
+      </div>
+      <h4>ВЫВЕДЕНЫ В STEAM</h4>
+      <!-- Добавь еще предметы -->
+    </div>
+  </div>
+
+  <div class="tabbar">
+    <button id="tab-home" class="active">💎</button>
+    <button id="tab-cases">Кейсы</button>
+    <button id="tab-friends">Друзья</button>
+    <button id="tab-profile">Профиль</button>
+  </div>
+
+  <script>
+    const screens = {
+      home: document.getElementById('home-screen'),
+      cases: document.getElementById('cases-screen'),
+      friends: document.getElementById('friends-screen'),
+      profile: document.getElementById('profile-screen'),
+    };
+
+    const buttons = {
+      home: document.getElementById('tab-home'),
+      cases: document.getElementById('tab-cases'),
+      friends: document.getElementById('tab-friends'),
+      profile: document.getElementById('tab-profile'),
+    };
+
+    function showScreen(name) {
+      Object.values(screens).forEach(s => s.classList.add('hidden'));
+      screens[name].classList.remove('hidden');
+      Object.values(buttons).forEach(b => b.classList.remove('active'));
+      buttons[name].classList.add('active');
+    }
+
+    buttons.home.onclick = () => showScreen('home');
+    buttons.cases.onclick = () => showScreen('cases');
+    buttons.friends.onclick = () => showScreen('friends');
+    buttons.profile.onclick = () => showScreen('profile');
+
+    // Пример установки аватарки и имени
+    document.getElementById('user-avatar').src = 'https://cdn-icons-png.flaticon.com/512/149/149071.png'; 
+    document.getElementById('profile-avatar').src = 'https://cdn-icons-png.flaticon.com/512/149/149071.png'; 
+    document.getElementById('profile-name').textContent = 'Эрнест';
+
+    // Пример заполнения друзей
+    const friendsList = document.getElementById('friends-list');
+    friendsList.innerHTML = `
+      <div class="friend">
+        <div class="friend-name">Дмитрий</div>
+        <div>+500 <span class="diamond">💎</span></div>
+      </div>
+      <div class="friend">
+        <div class="friend-name">Алексей</div>
+        <div>+300 <span class="diamond">💎</span></div>
+      </div>
     `;
-  }
 
-  function renderFriends() {
-    const friends = [
-      { name: 'Иван' },
-      { name: 'Мария' },
-      { name: 'Алексей' }
-    ];
-
-    app.innerHTML = '<h1>Друзья</h1>' + friends.map(f => `<div class="friend">${f.name}</div>`).join('');
-  }
-
-  function renderProfile() {
-    app.innerHTML = `
-      <h1>Профиль</h1>
-      <img class="profile-photo" src="https://i.pravatar.cc/120" alt="Фото" />
-      <div>Эрнест</div>
-      <div class="profile-link" onclick="alert('Ссылка обмена')">🔗 Ссылка обмена</div>
-      <div class="profile-link" onclick="alert('Сообщество RFL BLAST')">👥 Сообщество RFL BLAST</div>
-      <div class="profile-link" onclick="alert('Язык')">🌐 Язык: Русский</div>
-      <div class="profile-link" onclick="alert('Открыть сайт RFL')">🌍 Открыть сайт RFL</div>
-    `;
-  }
-
-  document.getElementById('nav-home').addEventListener('click', () => {
-    setActiveNav('nav-home');
-    renderHome();
-  });
-  document.getElementById('nav-friends').addEventListener('click', () => {
-    setActiveNav('nav-friends');
-    renderFriends();
-  });
-  document.getElementById('nav-profile').addEventListener('click', () => {
-    setActiveNav('nav-profile');
-    renderProfile();
-  });
-
-  function setActiveNav(id) {
-    document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-  }
-
-  renderHome();
-</script>
-
+    // Тут будет логика покупки кристаллов и приглашения друзей
+    document.getElementById('buy-crystals').onclick = () => alert('Купить кристаллы - функция в разработке');
+    document.getElementById('invite-friend').onclick = () => alert('Пригласить друга - функция в разработке');
+  </script>
 </body>
 </html>
