@@ -3,71 +3,226 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>RFL Crystals</title>
+<title>RFL Crystals - Мини-приложение</title>
 <style>
   body {
-    background-color: #121212;
+    margin: 0; padding: 0;
+    background: #121212;
     color: white;
     font-family: Arial, sans-serif;
-    margin: 0; padding: 0;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
   }
   header {
-    text-align: center;
-    padding: 20px;
-  }
-  .diamond {
-    width: 80px;
-    margin: 0 auto 10px;
-  }
-  h1 {
-    font-weight: 900;
-  }
-  .balance {
-    background: #222;
-    margin: 20px auto;
-    padding: 15px;
-    width: 90%;
-    max-width: 400px;
-    border-radius: 10px;
+    padding: 20px 10px 10px;
     text-align: center;
   }
-  button {
-    background-color: #3b82f6;
-    border: none;
-    border-radius: 7px;
-    color: white;
-    font-size: 18px;
-    padding: 10px 0;
-    width: 90%;
-    max-width: 400px;
-    margin: 10px auto;
+  header img {
+    width: 60px;
+  }
+  header h1 {
+    font-weight: 700;
+    margin: 10px 0 6px;
+  }
+  header p {
+    font-size: 14px;
+    color: #ccc;
+    margin: 0;
+  }
+
+  main {
+    min-height: 400px;
+    padding: 10px 15px;
+  }
+
+  .tab {
+    display: none;
+  }
+  .tab.active {
     display: block;
+  }
+
+  /* Навигация снизу */
+  nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: #1e1e1e;
+    display: flex;
+    justify-content: space-around;
+    border-top: 1px solid #333;
+  }
+  nav button {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 12px 0;
+    color: #888;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  nav button.active {
+    color: #3b70ff;
+    border-top: 3px solid #3b70ff;
+  }
+  nav button svg {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 4px;
+    fill: currentColor;
+  }
+
+  /* Пример контента для кейсов */
+  .case-item {
+    background-color: #2a2a2a;
+    border-radius: 12px;
+    padding: 10px;
+    margin-bottom: 12px;
+  }
+  .case-item h3 {
+    margin: 0 0 6px;
+  }
+  .case-price {
+    background-color: #8a6d0f;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .case-price img {
+    width: 14px;
+  }
+  .btn-primary {
+    background-color: #3b70ff;
+    border-radius: 12px;
+    border: none;
+    color: white;
+    padding: 12px;
+    font-weight: 600;
+    width: 100%;
+    margin: 12px 0;
     cursor: pointer;
   }
 </style>
 </head>
 <body>
+
 <header>
-  <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Diamond" class="diamond" />
+  <img src="https://i.imgur.com/vz3UM6T.png" alt="Кристалл" />
   <h1>RFL Crystals</h1>
   <p>Зарабатывай кристаллы и меняй их на кейсы, стикеры и скины для Counter Strike 2.</p>
 </header>
-<div class="balance">
-  <div>💎 <span id="crystals-count">0</span></div>
-  <div>твой баланс</div>
-  <button id="buy-crystals">Купить кристаллы</button>
-</div>
+
+<main>
+  <section id="home" class="tab active">
+    <div style="text-align:center; padding: 15px; background:#1f1f1f; border-radius: 12px;">
+      <h2>Баланс</h2>
+      <div style="font-size: 40px; display:flex; justify-content:center; align-items:center; gap:8px;">
+        <img src="https://i.imgur.com/vz3UM6T.png" alt="Diamond" style="width:36px;" />
+        <span>0</span>
+      </div>
+      <button class="btn-primary">Купить кристаллы</button>
+    </div>
+
+    <div style="margin-top: 20px;">
+      <h3>Задания</h3>
+      <div style="background:#1f1f1f; padding: 10px; border-radius: 12px; margin-bottom:10px; display:flex; justify-content: space-between; align-items:center;">
+        <div>Пригласи друга, который играет в CS</div>
+        <button class="btn-primary" style="padding: 6px 12px; font-size:14px;">Пригласить +500 <img src="https://i.imgur.com/vz3UM6T.png" alt="Diamond" style="width:14px; vertical-align:middle;"/></button>
+      </div>
+      <h3>Выполненные задания</h3>
+      <div style="background:#1f1f1f; padding: 10px; border-radius: 12px; display:flex; justify-content: space-between; align-items:center;">
+        <div>Подписка на RFL Community</div>
+        <div style="color:#2ecc71; font-size: 24px;">✓</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cases" class="tab">
+    <h2>Кейсы</h2>
+    <div class="case-item">
+      <h3>Rusty Case</h3>
+      <div class="case-price"><img src="https://i.imgur.com/vz3UM6T.png" alt="Diamond" /> 500</div>
+    </div>
+    <div class="case-item">
+      <h3>Tactical Case</h3>
+      <div class="case-price"><img src="https://i.imgur.com/vz3UM6T.png" alt="Diamond" /> 3000</div>
+    </div>
+    <div class="case-item">
+      <h3>Clutch Case</h3>
+      <div class="case-price"><img src="https://i.imgur.com/vz3UM6T.png" alt="Diamond" /> 5000</div>
+    </div>
+    <div class="case-item">
+      <h3>All In Case</h3>
+      <div class="case-price"><img src="https://i.imgur.com/vz3UM6T.png" alt="Diamond" /> 10000</div>
+    </div>
+  </section>
+
+  <section id="friends" class="tab" style="text-align:center;">
+    <h2>Пригласи друзей</h2>
+    <img src="https://i.imgur.com/RkaqvZ6.png" alt="Duck" style="width:120px; margin: 20px 0;" />
+    <p>Получай бонусы за приглашение друзей и зарабатывай вместе с ними!</p>
+    <button class="btn-primary">Пригласить друга +500 <img src="https://i.imgur.com/vz3UM6T.png" alt="Diamond" style="width:14px; vertical-align:middle;" /></button>
+  </section>
+
+  <section id="profile" class="tab">
+    <h2>Профиль</h2>
+    <div style="text-align:center;">
+      <img src="https://i.imgur.com/2jXJrcW.jpg" alt="Avatar" style="border-radius: 50%; width: 90px; margin-bottom: 10px;" />
+      <div style="font-weight: bold; font-size: 20px; margin-bottom: 15px;">Эрнест</div>
+    </div>
+    <div style="background:#2a2a2a; border-radius: 12px; padding: 15px;">
+      <div style="padding: 10px 0; border-bottom: 1px solid #3a3a3a; cursor: pointer;">Ссылка обмена &gt;</div>
+      <div style="padding: 10px 0; border-bottom: 1px solid #3a3a3a; cursor: pointer;">Сообщество RFL BLAST &gt;</div>
+      <div style="padding: 10px 0; border-bottom: 1px solid #3a3a3a; cursor: pointer;">Язык: Русский &gt;</div>
+      <div style="padding: 10px 0; cursor: pointer;">Открыть сайт RFL &gt;</div>
+    </div>
+  </section>
+</main>
+
+<nav>
+  <button class="tab-btn active" data-target="home">
+    <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    Главная
+  </button>
+  <button class="tab-btn" data-target="cases">
+    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-1.99.9-1.99 2L3 19a2 2 0 002 2h14a2 2 0 002-2V5c0-1.1-.9-2-2-2zM8.25 17.5l-1.5-3 6-3-1.5 3 1.5 3-6 3z"/></svg>
+    Кейсы
+  </button>
+  <button class="tab-btn" data-target="friends">
+    <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2 0-6 1-6 3v3h12v-3c0-2-4-3-6-3z"/></svg>
+    Друзья
+  </button>
+  <button class="tab-btn" data-target="profile">
+    <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12zm0 2c-3.3 0-9.9 1.7-9.9 5v3h20v-3c0-3.3-6.6-5-10.1-5z"/></svg>
+    Профиль
+  </button>
+</nav>
+
 <script>
-  // Пример взаимодействия с Telegram WebApp
-  const tg = window.Telegram.WebApp;
-  tg.expand();
+  const buttons = document.querySelectorAll('.tab-btn');
+  const tabs = document.querySelectorAll('.tab');
 
-  // Здесь можно добавить логику загрузки баланса из backend или Telegram data
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.target;
 
-  document.getElementById("buy-crystals").onclick = () => {
-    alert("Функция покупки кристаллов пока не реализована.");
-  };
+      tabs.forEach(tab => tab.classList.remove('active'));
+      buttons.forEach(b => b.classList.remove('active'));
+
+      document.getElementById(target).classList.add('active');
+      btn.classList.add('active');
+    });
+  });
 </script>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
 </body>
 </html>
