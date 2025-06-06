@@ -4,72 +4,93 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RFL Crystals MiniApp</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
-    body { background-color: #000; color: #fff; font-family: Arial, sans-serif; }
-    #avatar { width: 80px; height: 80px; border-radius: 50%; margin: 20px auto; display: block; }
-    #username { text-align: center; font-size: 24px; margin-top: 10px; }
-    #balance { font-size: 20px; margin: 20px; text-align: center; }
-    .nav { display: flex; justify-content: space-around; background: #111; padding: 10px 0; position: fixed; bottom: 0; width: 100%; }
-    .nav button { background: none; border: none; color: #aaa; font-size: 16px; }
-    .nav button.active { color: #39f; font-weight: bold; }
-    section { display: none; padding-bottom: 50px; }
+    body { font-family: 'Inter', sans-serif; }
+    section { display: none; }
     section.active { display: block; }
   </style>
 </head>
-<body>
-  <img id="avatar" src="" alt="Аватар" />
-  <div id="username"></div>
-  <div id="balance"></div>
+<body class="bg-black text-white min-h-screen pb-20">
 
-  <section id="home" class="active">
-    <button id="buyCrystalsBtn">Купить кристаллы</button><br><br>
-    <button id="inviteFriendBtn">Пригласить друга</button>
-  </section>
-
-  <section id="cases">
-    <h2>Кейсы</h2>
-    <p>Здесь список кейсов (пока пусто)</p>
-  </section>
-
-  <section id="friends">
-    <h2>Друзья</h2>
-    <ul id="friendsList"></ul>
-  </section>
-
-  <section id="profile">
-    <h2>Профиль</h2>
-    <p id="profileName"></p>
-    <p id="profileBalance"></p>
-  </section>
-
-  <div class="nav">
-    <button class="nav-btn active" data-target="home">Главная</button>
-    <button class="nav-btn" data-target="cases">Кейсы</button>
-    <button class="nav-btn" data-target="friends">Друзья</button>
-    <button class="nav-btn" data-target="profile">Профиль</button>
+  <!-- User Info -->
+  <div class="text-center py-6">
+    <img id="avatar" src="" alt="Аватар" class="w-20 h-20 rounded-full mx-auto border-2 border-blue-500" />
+    <div id="username" class="text-xl mt-2 font-semibold"></div>
+    <div id="balance" class="text-lg text-blue-400 mt-1"></div>
   </div>
 
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <!-- Главная -->
+  <section id="home" class="active px-4">
+    <button id="buyCrystalsBtn" class="w-full py-3 bg-blue-600 rounded-2xl mb-4 hover:bg-blue-700 transition">Купить кристаллы</button>
+    <button id="inviteFriendBtn" class="w-full py-3 bg-green-600 rounded-2xl hover:bg-green-700 transition">Пригласить друга</button>
+  </section>
+
+  <!-- Кейсы -->
+  <section id="cases" class="px-4">
+    <h2 class="text-2xl font-bold mb-4">Кейсы</h2>
+    <div class="grid grid-cols-2 gap-4">
+      <div class="bg-zinc-800 p-4 rounded-2xl shadow text-center">
+        <h3 class="font-semibold">Rusty Case</h3>
+        <p class="text-blue-300">500 💎</p>
+      </div>
+      <div class="bg-zinc-800 p-4 rounded-2xl shadow text-center">
+        <h3 class="font-semibold">Tactical Case</h3>
+        <p class="text-blue-300">3000 💎</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Друзья -->
+  <section id="friends" class="px-4">
+    <h2 class="text-2xl font-bold mb-4">Друзья</h2>
+    <ul id="friendsList" class="space-y-2"></ul>
+  </section>
+
+  <!-- Профиль -->
+  <section id="profile" class="px-4">
+    <h2 class="text-2xl font-bold mb-4">Профиль</h2>
+    <div class="bg-zinc-800 p-4 rounded-2xl">
+      <p id="profileName" class="mb-2"></p>
+      <p id="profileBalance"></p>
+    </div>
+  </section>
+
+  <!-- Навигация -->
+  <div class="fixed bottom-0 w-full bg-zinc-900 py-3 flex justify-around text-sm text-gray-400">
+    <button class="nav-btn active flex flex-col items-center" data-target="home">🏠<span>Главная</span></button>
+    <button class="nav-btn flex flex-col items-center" data-target="cases">📦<span>Кейсы</span></button>
+    <button class="nav-btn flex flex-col items-center" data-target="friends">👥<span>Друзья</span></button>
+    <button class="nav-btn flex flex-col items-center" data-target="profile">👤<span>Профиль</span></button>
+  </div>
+
+  <!-- Скрипт -->
   <script>
-    const tg = window.Telegram.WebApp;
+  const tg = window.Telegram.WebApp;
+  tg.expand();
 
-    const navButtons = document.querySelectorAll(".nav-btn");
-    const sections = document.querySelectorAll("section");
-    navButtons.forEach(btn => {
-      btn.onclick = () => {
-        navButtons.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        sections.forEach(s => s.classList.remove("active"));
-        document.getElementById(btn.dataset.target).classList.add("active");
-      };
-    });
+  const navButtons = document.querySelectorAll(".nav-btn");
+  const sections = document.querySelectorAll("section");
 
-    async function loadUserData() {
-      const userId = tg.initDataUnsafe.user.id;
-      const res = await fetch(`http://localhost:8000/api/user/${userId}`);
+  navButtons.forEach(btn => {
+    btn.onclick = () => {
+      navButtons.forEach(b => b.classList.remove("text-blue-400", "active"));
+      btn.classList.add("text-blue-400", "active");
+
+      sections.forEach(s => s.classList.remove("active"));
+      document.getElementById(btn.dataset.target).classList.add("active");
+    };
+  });
+
+  async function loadUserData() {
+    try {
+      const userId = tg.initDataUnsafe.user?.id || 123;
+      const res = await fetch(`http://147.45.245.48:8000/api/user/${userId}`);
+      if (!res.ok) throw new Error("Ошибка ответа сервера");
       const user = await res.json();
 
-      document.getElementById("avatar").src = user.avatar;
+      document.getElementById("avatar").src = user.avatar || "https://via.placeholder.com/80";
       document.getElementById("username").textContent = user.name;
       document.getElementById("balance").textContent = `Баланс: ${user.balance} 💎`;
 
@@ -80,12 +101,18 @@
       friendsList.innerHTML = "";
       user.friends.forEach(friend => {
         const li = document.createElement("li");
+        li.className = "bg-zinc-800 p-2 rounded-xl";
         li.textContent = friend.name;
         friendsList.appendChild(li);
       });
+    } catch (err) {
+      alert("Не удалось загрузить данные.");
+      console.error(err);
     }
+  }
 
-    loadUserData();
-  </script>
+  loadUserData();
+</script>
+
 </body>
 </html>
