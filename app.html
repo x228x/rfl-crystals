@@ -67,52 +67,52 @@
 
   <!-- Скрипт -->
   <script>
-  const tg = window.Telegram.WebApp;
-  tg.expand();
+    const tg = window.Telegram.WebApp;
+    tg.expand();
 
-  const navButtons = document.querySelectorAll(".nav-btn");
-  const sections = document.querySelectorAll("section");
+    const navButtons = document.querySelectorAll(".nav-btn");
+    const sections = document.querySelectorAll("section");
 
-  navButtons.forEach(btn => {
-    btn.onclick = () => {
-      navButtons.forEach(b => b.classList.remove("text-blue-400", "active"));
-      btn.classList.add("text-blue-400", "active");
+    navButtons.forEach(btn => {
+      btn.onclick = () => {
+        navButtons.forEach(b => b.classList.remove("text-blue-400", "active"));
+        btn.classList.add("text-blue-400", "active");
 
-      sections.forEach(s => s.classList.remove("active"));
-      document.getElementById(btn.dataset.target).classList.add("active");
-    };
-  });
+        sections.forEach(s => s.classList.remove("active"));
+        document.getElementById(btn.dataset.target).classList.add("active");
+      };
+    });
 
-  async function loadUserData() {
-    try {
-      const userId = tg.initDataUnsafe.user?.id || 123;
-      const res = await fetch(`http://147.45.245.48:8000/api/user/${userId}`);
-      if (!res.ok) throw new Error("Ошибка ответа сервера");
-      const user = await res.json();
+    async function loadUserData() {
+      try {
+        const userId = tg.initDataUnsafe.user?.id || 123;
+        const res = await fetch(`https://24cs2case.ru/api/user/${userId}`);
+        if (!res.ok) throw new Error("Ошибка ответа сервера");
+        const user = await res.json();
 
-      document.getElementById("avatar").src = user.avatar || "https://via.placeholder.com/80";
-      document.getElementById("username").textContent = user.name;
-      document.getElementById("balance").textContent = `Баланс: ${user.balance} 💎`;
+        document.getElementById("avatar").src = user.avatar || "https://via.placeholder.com/80";
+        document.getElementById("username").textContent = user.name;
+        document.getElementById("balance").textContent = `Баланс: ${user.balance} 💎`;
 
-      document.getElementById("profileName").textContent = `Имя: ${user.name}`;
-      document.getElementById("profileBalance").textContent = `Баланс: ${user.balance} 💎`;
+        document.getElementById("profileName").textContent = `Имя: ${user.name}`;
+        document.getElementById("profileBalance").textContent = `Баланс: ${user.balance} 💎`;
 
-      const friendsList = document.getElementById("friendsList");
-      friendsList.innerHTML = "";
-      user.friends.forEach(friend => {
-        const li = document.createElement("li");
-        li.className = "bg-zinc-800 p-2 rounded-xl";
-        li.textContent = friend.name;
-        friendsList.appendChild(li);
-      });
-    } catch (err) {
-      alert("Не удалось загрузить данные.");
-      console.error(err);
+        const friendsList = document.getElementById("friendsList");
+        friendsList.innerHTML = "";
+        user.friends.forEach(friend => {
+          const li = document.createElement("li");
+          li.className = "bg-zinc-800 p-2 rounded-xl";
+          li.textContent = friend.name;
+          friendsList.appendChild(li);
+        });
+      } catch (err) {
+        alert("Не удалось загрузить данные.");
+        console.error(err);
+      }
     }
-  }
 
-  loadUserData();
-</script>
+    loadUserData();
+  </script>
 
 </body>
 </html>
